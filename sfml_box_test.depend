@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1508155725 source:/home/gwarchol/codeblocks_workspace/sfml_box_test/main.cpp
+	"Game.h"
+
+1508156698 /home/gwarchol/codeblocks_workspace/sfml_box_test/include/Game.h
+	<SFML/Graphics.hpp>
+	<SFML/Graphics/Image.hpp>
+	<Box2D/Box2D.h>
+
+1508156673 source:/home/gwarchol/codeblocks_workspace/sfml_box_test/src/Game.cpp
+	"Game.h"
+
