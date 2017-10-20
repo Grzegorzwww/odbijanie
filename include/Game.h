@@ -3,13 +3,15 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Image.hpp>
 #include <Box2D/Box2D.h>
+#include "Player.h"
+#include "Ball.h"
 
 
 
 class Game {
 public:
-    Game();
 
+    Game();
     void run();
     virtual ~Game();
 
@@ -29,13 +31,19 @@ private:
      b2Vec2 _gravity;
      b2World *_World;
 
+
     sf::Texture object_tex;
     sf::Texture ground_tex;
     sf::Texture back_ground_tex;
 
-     sf::Sprite GroundSprite;
-     sf::Sprite BodySprite;
-     sf::Sprite BackGroundSprite;
+    sf::Sprite GroundSprite;
+    sf::Sprite BodySprite;
+    sf::Sprite BackGroundSprite;
+
+
+    Player *player1;
+    Ball *ball[250];
+
 
 
      sf::Sprite spites[255];
@@ -43,6 +51,10 @@ private:
 
     void CreateGround(b2World& World, float X, float Y);
     void CreateBox(b2World& World, int MouseX, int MouseY);
+
+
+    void create_ground(b2World& World, float X, float Y, float heigh, float width);
+    void create_ball(b2World& World, int MouseX, int MouseY);
 
 
 };

@@ -2,11 +2,31 @@
 1508155725 source:/home/gwarchol/codeblocks_workspace/sfml_box_test/main.cpp
 	"Game.h"
 
-1508156698 /home/gwarchol/codeblocks_workspace/sfml_box_test/include/Game.h
+1508492734 /home/gwarchol/codeblocks_workspace/sfml_box_test/include/Game.h
 	<SFML/Graphics.hpp>
 	<SFML/Graphics/Image.hpp>
 	<Box2D/Box2D.h>
+	"Player.h"
+	"Ball.h"
 
-1508156673 source:/home/gwarchol/codeblocks_workspace/sfml_box_test/src/Game.cpp
+1508502221 source:/home/gwarchol/codeblocks_workspace/sfml_box_test/src/Game.cpp
 	"Game.h"
+
+1508417147 /home/gwarchol/codeblocks_workspace/sfml_box_test/include/Player.h
+	<SFML/Graphics.hpp>
+	<SFML/Graphics/Image.hpp>
+	<Box2D/Box2D.h>
+	<iostream>
+
+1508417140 source:/home/gwarchol/codeblocks_workspace/sfml_box_test/src/Player.cpp
+	"Player.h"
+
+1508502268 source:/home/gwarchol/codeblocks_workspace/sfml_box_test/src/Ball.cpp
+	"Ball.h"
+
+1508502068 /home/gwarchol/codeblocks_workspace/sfml_box_test/include/Ball.h
+	<SFML/Graphics.hpp>
+	<SFML/Graphics/Image.hpp>
+	<Box2D/Box2D.h>
+	<iostream>
 
