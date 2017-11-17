@@ -17,10 +17,7 @@ Ball::Ball(b2World& World, std::string texture_file, int x, int y)
     BodyDef.position = b2Vec2(x/SCALE, y/SCALE);
     BodyDef.type = b2_dynamicBody;
 
-
     shape.m_radius = 0.7f;
-
-
 
 
     Body = World.CreateBody(&BodyDef);

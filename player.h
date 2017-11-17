@@ -5,6 +5,7 @@
 #include <Box2D/Box2D.h>
 #include <iostream>
 #include "defines.h"
+#include "paletka.h"
 
 
 
@@ -20,6 +21,7 @@ class Player
 
         void setPosition(int x, int y);
         void makeJump();
+        void makeHit();
         void moveRight();
         void moveLeft();
 
@@ -47,7 +49,9 @@ class Player
          b2PolygonShape _shape;
          b2FixtureDef _fixtureDef;
          b2Body* _body;
+        b2RevoluteJoint* m_joint;
 
+        Paletka *padle;
 
 };
 

@@ -11,6 +11,7 @@
 #include "player.h"
 #include "ball.h"
 #include "ground.h"
+#include "paletka.h"
 
 
 
@@ -55,7 +56,9 @@ private:
 
     Ground *ground;
     Ground *left_wall;
-     Ground *right_wall;
+    Ground *right_wall;
+
+
 
 
 

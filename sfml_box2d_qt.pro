@@ -28,12 +28,14 @@ SOURCES += main.cpp \
     game.cpp \
     ball.cpp \
     player.cpp \
-    ground.cpp
+    ground.cpp \
+    paletka.cpp
 
 HEADERS += \
     defines.h \
     game.h \
     ball.h \
     player.h \
-    ground.h
+    ground.h \
+    paletka.h
 

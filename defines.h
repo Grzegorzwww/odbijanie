@@ -10,6 +10,9 @@
 static const int SCALE = 30;
 
 
+static const float DEGTORAD = 0.01745;
+
+
 static const int FRAME_PER_SEK = 60;
 
 static const int JUMP_MAX_POSITION = 150;

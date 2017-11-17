@@ -15,14 +15,14 @@ Game::Game() : window(sf::VideoMode(800, 600), "SFML window")
 
 
 
-    if (!back_ground_tex.loadFromFile("background.jpg")) {
+    if (!back_ground_tex.loadFromFile("background_2.jpg")) {
 
     }
     _backGroundSprite.setTexture(back_ground_tex);
     _backGroundSprite.setPosition(0, 0);
 
 
-    ground = new Ground(*World, "ground.jpg",400 , 500, 800.0f,  10.0f);
+    ground = new Ground(*World, "ground.jpg",400 , 600, 800.0f,  10.0f);
     left_wall = new Ground(*World, "x",3,300, 6.0f,  600.0f);
     right_wall = new Ground(*World, "x",806,300, 6.0f,  600.0f);
 
@@ -37,7 +37,13 @@ Game::Game() : window(sf::VideoMode(800, 600), "SFML window")
     player_one = new Player(*World, "player.png", 400, 200, PLAYER_WIDTH, PLAYER_HEIGHT);
 
 
+
+
     player_two = new Player(*World, "player.png", 200, 200, PLAYER_WIDTH, PLAYER_HEIGHT);
+
+
+
+
 
 
 
@@ -86,45 +92,50 @@ void Game::processEvents() {
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        std::cerr << "Left";
+        std::cerr << "Left"<<std::endl;
         player_one->moveLeft();
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 
-        std::cerr << "Right";
+        std::cerr << "Right"<<std::endl;
         player_one->moveRight();
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 
-        std::cerr << "Up";
+        std::cerr << "Up"<<std::endl;
         player_one->makeJump();
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 
-        std::cerr << "Down";
+        std::cerr << "Down"<<std::endl;
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::U)) {
+
+        player_one->makeHit();
     }
 
 
+
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        std::cerr << "Left";
+        std::cerr << "Left" <<std::endl;
         player_two->moveLeft();
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 
-        std::cerr << "Right";
+        std::cerr << "Right"<<std::endl;
         player_two->moveRight();
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 
-        std::cerr << "Up";
+        std::cerr << "Up"<<std::endl;
         player_two->makeJump();
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 
-        std::cerr << "Down";
+        std::cerr << "Down"<<std::endl;
     }
-
-
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 
         if(ball == nullptr){

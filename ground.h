@@ -11,7 +11,7 @@ class Ground
 
       Ground(b2World& World, std::string texture_file, int x, int y, float width, float height );
       void setPosition(int x, int y);
-        virtual ~Ground();
+      virtual ~Ground();
 
     protected:
 
