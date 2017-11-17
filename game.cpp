@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "game.h"
 
 Game::Game() : window(sf::VideoMode(800, 600), "SFML window")
 {
@@ -7,37 +7,38 @@ Game::Game() : window(sf::VideoMode(800, 600), "SFML window")
       window.setFramerateLimit(60);
 
 
-    _gravity = b2Vec2(0.f, 10.0f);
-    _World = new b2World(_gravity, true);
-
-
-
-
-
-   /* if (!object_tex.loadFromFile("ball_small.png")) {
-        // error...
-    }*/
-
-
-
-    if (!ground_tex.loadFromFile("ground.jpg")) {
-        // error...
-    }
+    _gravity = b2Vec2(0.0f, 25.0f);
+    World = new b2World(_gravity);
+    pilki_counter = 0;
+    spites_count = 0;
 
 
 
 
     if (!back_ground_tex.loadFromFile("background.jpg")) {
-        // error...
-    }
 
+    }
+    _backGroundSprite.setTexture(back_ground_tex);
+    _backGroundSprite.setPosition(0, 0);
+
+
+    ground = new Ground(*World, "ground.jpg",400 , 500, 800.0f,  10.0f);
+    left_wall = new Ground(*World, "x",3,300, 6.0f,  600.0f);
+    right_wall = new Ground(*World, "x",806,300, 6.0f,  600.0f);
+
+
+     ball = nullptr;
 
 
 
    // CreateGround(*_World, 400.f, 500.f);
-    create_ground(*_World, 400.0f, 500.0f, 800.0f, 10.0f);
+    //create_ground(*_World, 400.0f, 500.0f, 800.0f, 10.0f);
 
-    player1 = new Player(_World, "player1.png", 100, 100);
+    player_one = new Player(*World, "player.png", 400, 200, PLAYER_WIDTH, PLAYER_HEIGHT);
+
+
+    player_two = new Player(*World, "player.png", 200, 200, PLAYER_WIDTH, PLAYER_HEIGHT);
+
 
 
 
@@ -70,45 +71,94 @@ void Game::processEvents() {
         if (event.type == sf::Event::Closed)
             window.close();
     }
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-
-    {
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
         int mouseX = sf::Mouse::getPosition(window).x;
         int mouseY = sf::Mouse::getPosition(window).y;
         //create_ball(*_World, MouseX, MouseY);
-        ball[0] = new Ball(*_World, "ball_small.png", mouseX , mouseY);
+        //if(pilki_counter == 0){
+          /*  ball[pilki_counter] = new Ball(*World, "ball_small.png", mouseX , mouseY);
+            std::cerr << "stworzono obiekt typu Ball nr: " << pilki_counter  <<std::endl;
+        pilki_counter++;*/
+
+
+
+
     }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+        std::cerr << "Left";
+        player_one->moveLeft();
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+
+        std::cerr << "Right";
+        player_one->moveRight();
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+
+        std::cerr << "Up";
+        player_one->makeJump();
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+
+        std::cerr << "Down";
+    }
+
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+        std::cerr << "Left";
+        player_two->moveLeft();
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+
+        std::cerr << "Right";
+        player_two->moveRight();
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+
+        std::cerr << "Up";
+        player_two->makeJump();
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+
+        std::cerr << "Down";
+    }
+
+
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+
+        if(ball == nullptr){
+              ball = new Ball(*World, "ball_small.png", 400 , 200);
+        }
+      }
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
+
+        if(ball != nullptr){
+              ball->setDefPosiotion(400,100);
+
+        }
+      }
 
 }
 
 void Game::update() {
 
-    BackGroundSprite.setTexture(back_ground_tex);
-    BackGroundSprite.setPosition(0, 0);
-    spites_count = 0;
-    sf::Sprite temp_sprite;
 
 
-    std::cout <<"numbers of bodys = "<< _World->GetBodyCount();
+    sf::Sprite *class_temp_sprite = new sf::Sprite();
 
 
-    for(b2Body *bodyIterator = _World->GetBodyList(); bodyIterator  != 0; bodyIterator  = bodyIterator ->GetNext()) {
+    for(b2Body *bodyIterator = World->GetBodyList(); bodyIterator  != 0; bodyIterator  = bodyIterator ->GetNext()) {
 
-            Ball* ball = static_cast<Ball*>( bodyIterator->GetUserData() );
-            if(ball != NULL){
-               temp_sprite.setTexture(ball->getTexture());
-            }
+        class_temp_sprite = reinterpret_cast<sf::Sprite  *>( bodyIterator->GetUserData());
+        class_temp_sprite->setPosition(SCALE * bodyIterator->GetPosition().x, SCALE * bodyIterator->GetPosition().y);
+        class_temp_sprite->setRotation(bodyIterator->GetAngle() * 180/b2_pi);
+        sprites_buffor.push_back(*class_temp_sprite);
 
-            temp_sprite.setPosition(SCALE * bodyIterator->GetPosition().x, SCALE * bodyIterator->GetPosition().y);
-            temp_sprite.setRotation(180/b2_pi * bodyIterator->GetAngle());
 
-            spites[spites_count++] = temp_sprite;
 
-            delete ball;
-
-    }
-
-      /*  if (bodyIterator->GetType() == b2_dynamicBody ) {
+       /* sf::Texture *tex = NULL;)
+        if (bodyIterator->GetType() == b2_dynamicBody ) {
             BodySprite.setTexture(object_tex);
             BodySprite.setOrigin(20.f, 20.f);
             BodySprite.setPosition(SCALE * bodyIterator->GetPosition().x, SCALE * bodyIterator->GetPosition().y);
@@ -123,9 +173,10 @@ void Game::update() {
           //  window.draw(GroundSprite);
            spites[spites_count++] = GroundSprite;
         }*/
+    }
 
 
-      _World->Step(1/60.f, 8, 3);
+      World->Step(1/60.f, 8, 3);
 }
 
 
@@ -137,11 +188,21 @@ void Game::render()
 
 
 
-        window.draw(BackGroundSprite);
-
-        for(int i = 0; i < spites_count; i++ ){
-            window.draw(spites[i]);
+        window.draw(_backGroundSprite);
+        for (std::vector<sf::Sprite >::iterator it = sprites_buffor.begin(); it != sprites_buffor.end(); ++it){
+            window.draw(*it);
         }
+
+        sprites_buffor.clear();
+
+
+
+       /* for(int i = 0; i < spites_count; i++ ){
+            window.draw(spites[i]);
+        }*/
+
+
+        spites_count = 0;
 
         window.display();
 }

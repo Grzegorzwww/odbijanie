@@ -1,9 +1,8 @@
 #ifndef BALL_H
 #define BALL_H
-#include <SFML/Graphics.hpp>
-#include <SFML/Graphics/Image.hpp>
-#include <Box2D/Box2D.h>
+
 #include <iostream>
+#include "defines.h"
 
 
 
@@ -15,19 +14,25 @@ class Ball
 
         void setPosition(int x, int y);
         sf::Texture getTexture();
+        void setDefPosiotion(int x, int y);
 
     protected:
 
     private:
         Ball();
 
-        int SCALE;
+
 
         sf::Texture ball_tex;
         sf::Sprite BallSprite;
 
          b2BodyDef BodyDef;
          b2PolygonShape Shape;
+
+
+          b2CircleShape shape;
+
+
          b2FixtureDef FixtureDef;
          b2Body* Body;
 

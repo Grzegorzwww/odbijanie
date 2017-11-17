@@ -1,10 +1,17 @@
 #ifndef GAME_H
 #define GAME_H
-#include <SFML/Graphics.hpp>
-#include <SFML/Graphics/Image.hpp>
-#include <Box2D/Box2D.h>
-#include "Player.h"
-#include "Ball.h"
+
+
+#include <cstdint>
+#include <cassert>
+#include <iostream>
+
+#include <defines.h>
+
+#include "player.h"
+#include "ball.h"
+#include "ground.h"
+
 
 
 
@@ -26,27 +33,37 @@ private:
 
     const int SCALE = 30;
     int spites_count;
+    int pilki_counter;
 
     sf::RenderWindow window;
      b2Vec2 _gravity;
-     b2World *_World;
+     b2World *World;
 
 
-    sf::Texture object_tex;
-    sf::Texture ground_tex;
+
     sf::Texture back_ground_tex;
-
-    sf::Sprite GroundSprite;
-    sf::Sprite BodySprite;
-    sf::Sprite BackGroundSprite;
+    sf::Sprite _backGroundSprite;
 
 
-    Player *player1;
-    Ball *ball[250];
+    Player *player_one;
+    Player *player_two;
+
+
+    //Ball *ball[250];
+    Ball *ball;
+
+
+    Ground *ground;
+    Ground *left_wall;
+     Ground *right_wall;
 
 
 
-     sf::Sprite spites[255];
+
+
+
+    std::vector<sf::Sprite > sprites_buffor;
+    // sf::Sprite spites[255];
 
 
     void CreateGround(b2World& World, float X, float Y);
