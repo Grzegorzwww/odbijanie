@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "defines.h"
+#include "math.h"
 
 
 class Paletka
@@ -10,13 +11,15 @@ class Paletka
 public:
 
 
-    Paletka(b2World& World, std::string texture_file, int x, int y,  float width, float height);
+    Paletka(b2World& World, std::string texture_file, int x, int y,  float width, float height, bool rev = false);
     void setPosition(int x, int y);
    // virtual ~Paletka();
 
 
     sf::Sprite getSprite();
     void makeHitMove();
+    void releaseHitMove();
+    void makeBackhandMove();
 
     b2Body * getBody();
 
@@ -27,6 +30,7 @@ public:
 private :
         Paletka();
 
+        bool direction;
         sf::Texture _texture;
         sf::Sprite _sprite;
 

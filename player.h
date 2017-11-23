@@ -14,7 +14,7 @@ class Player
 {
     public:
 
-        Player(b2World& World, std::string texture_file, int x, int y,  float width, float height);
+        Player(b2World& World, std::string texture_file, int x, int y,  float width, float height, bool rev_pal);
         virtual ~Player();
 
 
@@ -22,8 +22,13 @@ class Player
         void setPosition(int x, int y);
         void makeJump();
         void makeHit();
+        void makeBackhand();
+        void releaseHit();
         void moveRight();
         void moveLeft();
+        void switchPaddleState(bool state);
+
+
 
 
 
@@ -34,13 +39,15 @@ class Player
     protected:
 
 
-
-
     private:
         Player();
 
         int window_w_max;
         int window_h_max;
+
+         bool play_direction;
+         bool paddle_state;
+         b2World *temp_world_ptr;
 
          sf::Texture _texture;
          sf::Sprite _sprite;
@@ -49,9 +56,14 @@ class Player
          b2PolygonShape _shape;
          b2FixtureDef _fixtureDef;
          b2Body* _body;
-        b2RevoluteJoint* m_joint;
+         b2RevoluteJointDef rjd;
+         b2RevoluteJoint* m_joint;
 
-        Paletka *padle;
+
+
+
+         Paletka *padle;
+
 
 };
 

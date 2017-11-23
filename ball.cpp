@@ -28,11 +28,10 @@ Ball::Ball(b2World& World, std::string texture_file, int x, int y)
     Body->SetUserData((void *)&BallSprite);
 
    // Shape.SetAsBox((30.f/2)/SCALE, (30.f/2)/SCALE);
-
-    FixtureDef.density = 15.0f;
+    FixtureDef.density = 1.0f;
     FixtureDef.restitution = 0.5f;
-    FixtureDef.friction = 0.0;
-
+    FixtureDef.friction = 0.5;
+    Body->SetFixedRotation(true);
 
     //FixtureDef.shape = &Shape;
     FixtureDef.shape = & shape;
@@ -57,6 +56,8 @@ void Ball::setDefPosiotion(int x, int y){
 sf::Texture Ball::getTexture(){
     return ball_tex;
 }
+
+
 
 
 

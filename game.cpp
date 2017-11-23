@@ -4,7 +4,7 @@ Game::Game() : window(sf::VideoMode(800, 600), "SFML window")
 {
     //cto
 
-      window.setFramerateLimit(60);
+    window.setFramerateLimit(60);
 
 
     _gravity = b2Vec2(0.0f, 25.0f);
@@ -14,6 +14,7 @@ Game::Game() : window(sf::VideoMode(800, 600), "SFML window")
 
 
 
+    menu = new Menu(window.getSize().x,window.getSize().y);
 
     if (!back_ground_tex.loadFromFile("background_2.jpg")) {
 
@@ -27,19 +28,18 @@ Game::Game() : window(sf::VideoMode(800, 600), "SFML window")
     right_wall = new Ground(*World, "x",806,300, 6.0f,  600.0f);
 
 
-     ball = nullptr;
+    ball = nullptr;
 
 
 
-   // CreateGround(*_World, 400.f, 500.f);
+    // CreateGround(*_World, 400.f, 500.f);
     //create_ground(*_World, 400.0f, 500.0f, 800.0f, 10.0f);
 
-    player_one = new Player(*World, "player.png", 400, 200, PLAYER_WIDTH, PLAYER_HEIGHT);
+    player_one = new Player(*World, "player.png", 400, 200, PLAYER_WIDTH, PLAYER_HEIGHT, PAL_LEFT_HENDED);
+
+    player_two = new Player(*World, "player.png", 200, 200, PLAYER_WIDTH, PLAYER_HEIGHT, PAL_RIGHT_HENDED);
 
 
-
-
-    player_two = new Player(*World, "player.png", 200, 200, PLAYER_WIDTH, PLAYER_HEIGHT);
 
 
 
@@ -72,122 +72,93 @@ void Game::run() {
 
 void Game::processEvents() {
     int i= 0;
+
     sf::Event event;
-    while (window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed)
+    while (window.pollEvent(event))
+    {
+        // check the type of the event...
+        switch (event.type)
+        {
+        // window closed
+        case sf::Event::Closed:
             window.close();
-    }
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-        int mouseX = sf::Mouse::getPosition(window).x;
-        int mouseY = sf::Mouse::getPosition(window).y;
-        //create_ball(*_World, MouseX, MouseY);
-        //if(pilki_counter == 0){
-          /*  ball[pilki_counter] = new Ball(*World, "ball_small.png", mouseX , mouseY);
-            std::cerr << "stworzono obiekt typu Ball nr: " << pilki_counter  <<std::endl;
-        pilki_counter++;*/
+            break;
+            // key pressed
+        case sf::Event::KeyPressed:
+            switch(event.key.code)
+            {
+            case sf::Keyboard::Left : player_one->moveLeft();
+                break;
+            case sf::Keyboard::Right : player_one->moveRight();
+                break;
+
+            case sf::Keyboard::Up : if(!menu->getMenuState()){
+                    player_one->makeJump();
+                }
+                else{
+                    menu->MoveUp();
+                }
+
+                break;
+            case sf::Keyboard::Down :
+                  menu->MoveDown();
+                break;
+            case sf::Keyboard::K : player_one->switchPaddleState(FORHAND); player_one->makeHit();
+                break;
+            case sf::Keyboard::L : player_one->switchPaddleState(BACKHAND);  player_one->makeBackhand();
+                break;
+            case sf::Keyboard::A : player_two->moveLeft();
+                break;
+            case sf::Keyboard::D : player_two->moveRight();
+                break;
+            case sf::Keyboard::W : player_two->makeJump();
+                break;
+            case sf::Keyboard::S : std::cerr << "idle : palyer 2: down"<<std::endl;
+                break;
+            case sf::Keyboard::V : player_two->switchPaddleState(FORHAND); player_two->makeHit();
+                break;
+            case sf::Keyboard::B : player_two->switchPaddleState(BACKHAND); player_two->makeBackhand();
+                break;
+            case sf::Keyboard::Space :
+                if(ball == nullptr){
+                    ball = new Ball(*World, "ball_small.png", 400 , 200);
+                }
+                else {
+                }
+                break;
+            case sf::Keyboard::Y :
+                resumeGame();
+                break;
+            default:
+                break;
+            case sf::Keyboard::Escape :
+                menu->showMenu();
+                break;
+
+            case sf::Keyboard::Return :
+                if(menu->getMenuState()){
+                    menu->hideMenu();
+                }
 
 
-
-
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        std::cerr << "Left"<<std::endl;
-        player_one->moveLeft();
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-
-        std::cerr << "Right"<<std::endl;
-        player_one->moveRight();
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-
-        std::cerr << "Up"<<std::endl;
-        player_one->makeJump();
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-
-        std::cerr << "Down"<<std::endl;
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::U)) {
-
-        player_one->makeHit();
-    }
-
-
-
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        std::cerr << "Left" <<std::endl;
-        player_two->moveLeft();
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-
-        std::cerr << "Right"<<std::endl;
-        player_two->moveRight();
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-
-        std::cerr << "Up"<<std::endl;
-        player_two->makeJump();
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-
-        std::cerr << "Down"<<std::endl;
-    }
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-
-        if(ball == nullptr){
-              ball = new Ball(*World, "ball_small.png", 400 , 200);
+               break;
+            }
         }
-      }
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
 
-        if(ball != nullptr){
-              ball->setDefPosiotion(400,100);
-
-        }
-      }
-
+    }
 }
 
 void Game::update() {
 
-
-
     sf::Sprite *class_temp_sprite = new sf::Sprite();
-
-
     for(b2Body *bodyIterator = World->GetBodyList(); bodyIterator  != 0; bodyIterator  = bodyIterator ->GetNext()) {
 
         class_temp_sprite = reinterpret_cast<sf::Sprite  *>( bodyIterator->GetUserData());
         class_temp_sprite->setPosition(SCALE * bodyIterator->GetPosition().x, SCALE * bodyIterator->GetPosition().y);
         class_temp_sprite->setRotation(bodyIterator->GetAngle() * 180/b2_pi);
         sprites_buffor.push_back(*class_temp_sprite);
-
-
-
-       /* sf::Texture *tex = NULL;)
-        if (bodyIterator->GetType() == b2_dynamicBody ) {
-            BodySprite.setTexture(object_tex);
-            BodySprite.setOrigin(20.f, 20.f);
-            BodySprite.setPosition(SCALE * bodyIterator->GetPosition().x, SCALE * bodyIterator->GetPosition().y);
-            BodySprite.setRotation(bodyIterator->GetAngle() * 180/b2_pi);
-            spites[spites_count++] = BodySprite;
-        } else {
-           // GroundSprite.setTexture(ground_tex);
-            GroundSprite.setColor(sf::Color::Magenta);
-            GroundSprite.setOrigin(400.f, 16.0f);
-            GroundSprite.setPosition(bodyIterator->GetPosition().x * SCALE, bodyIterator->GetPosition().y * SCALE);
-            GroundSprite.setRotation(180/b2_pi * bodyIterator->GetAngle());
-          //  window.draw(GroundSprite);
-           spites[spites_count++] = GroundSprite;
-        }*/
     }
-
-
-      World->Step(1/60.f, 8, 3);
+    World->Step(1/60.f, 8, 3);
 }
 
 
@@ -199,23 +170,24 @@ void Game::render()
 
 
 
-        window.draw(_backGroundSprite);
-        for (std::vector<sf::Sprite >::iterator it = sprites_buffor.begin(); it != sprites_buffor.end(); ++it){
-            window.draw(*it);
-        }
+    window.draw(_backGroundSprite);
+    for (std::vector<sf::Sprite >::iterator it = sprites_buffor.begin(); it != sprites_buffor.end(); ++it){
+        window.draw(*it);
+    }
 
-        sprites_buffor.clear();
-
-
-
-       /* for(int i = 0; i < spites_count; i++ ){
-            window.draw(spites[i]);
-        }*/
+    menu->draw(window);
+    sprites_buffor.clear();
 
 
-        spites_count = 0;
 
-        window.display();
+    /* for(int i = 0; i < spites_count; i++ ){
+                    window.draw(spites[i]);
+                }*/
+
+
+    spites_count = 0;
+
+    window.display();
 }
 
 
@@ -304,10 +276,21 @@ void Game::CreateBox(b2World& World, int MouseX, int MouseY)
     FixtureDef.density = 5.0f;
     FixtureDef.restitution = 0.4f;
 
-    //FixtureDef= 1.0f;
-    //FixtureDef.friction = 1.0f;
+
     FixtureDef.shape = &Shape;
 
     Body->CreateFixture(&FixtureDef);
 }
+
+void Game::resumeGame(){
+    if(ball  != nullptr){
+        ball->setDefPosiotion(650,100);
+        player_one->setPosition(650, 550);
+         player_one->makeJump();
+        player_two->setPosition(150, 550);
+        player_two->makeJump();
+    }
+}
+
+
 

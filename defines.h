@@ -5,6 +5,9 @@
 #include <SFML/Graphics/Image.hpp>
 #include <Box2D/Box2D.h>
 
+#define MAX(x, y) (((x) > (y)) ? (x) : (y))
+#define MIN(x, y) (((x) < (y)) ? (x) : (y))
+
 
 
 static const int SCALE = 30;
@@ -20,7 +23,12 @@ static const int PLAYER_HEIGHT = 100;
 static const int PLAYER_WIDTH = 50;
 
 
+static const bool PAL_RIGHT_HENDED = true;
+static const bool PAL_LEFT_HENDED = false;
 
+
+static const bool  FORHAND = true;
+static const bool  BACKHAND = false;
 
 
 #endif // DEFINES_H

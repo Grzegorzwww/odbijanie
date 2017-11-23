@@ -12,6 +12,7 @@
 #include "ball.h"
 #include "ground.h"
 #include "paletka.h"
+#include "menu.h"
 
 
 
@@ -59,23 +60,21 @@ private:
     Ground *right_wall;
 
 
-
-
-
-
-
-
     std::vector<sf::Sprite > sprites_buffor;
-    // sf::Sprite spites[255];
 
+
+
+    Menu *menu;
 
     void CreateGround(b2World& World, float X, float Y);
     void CreateBox(b2World& World, int MouseX, int MouseY);
 
-
     void create_ground(b2World& World, float X, float Y, float heigh, float width);
     void create_ball(b2World& World, int MouseX, int MouseY);
 
+
+
+    void resumeGame();
 
 };
 

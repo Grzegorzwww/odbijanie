@@ -19,17 +19,19 @@ CONFIG(debug, debug|release): LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-ne
 INCLUDEPATH += "/home/gwarchol/qt_workspace/SFML/include"
 DEPENDPATH += "/home/gwarchol/qt_workspace/SFML/include"
 
-
-
 INCLUDEPATH += "/home/gwarchol/qt_workspace/box2d/include"
 DEPENDPATH += "/home/gwarchol/qt_workspace/box2d/include"
+
+
+
 
 SOURCES += main.cpp \
     game.cpp \
     ball.cpp \
     player.cpp \
     ground.cpp \
-    paletka.cpp
+    paletka.cpp \
+    menu.cpp
 
 HEADERS += \
     defines.h \
@@ -37,5 +39,6 @@ HEADERS += \
     ball.h \
     player.h \
     ground.h \
-    paletka.h
+    paletka.h \
+    menu.h
 
