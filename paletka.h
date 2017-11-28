@@ -16,12 +16,14 @@ public:
    // virtual ~Paletka();
 
 
-    sf::Sprite getSprite();
+
     void makeHitMove();
     void releaseHitMove();
     void makeBackhandMove();
 
     b2Body * getBody();
+
+    sf::Sprite getSprite() {return _sprite;}
 
 
  protected:

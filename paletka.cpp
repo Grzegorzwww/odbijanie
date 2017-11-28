@@ -3,9 +3,6 @@
 Paletka::Paletka(b2World& World, std::string texture_file, int x, int y,  float width, float height, bool rev ) : direction(rev)
 {
 
-
-
-
     if (!_texture.loadFromFile(texture_file)) {
         std::cerr << "Can't load file:  "<<texture_file;
     }
@@ -14,19 +11,11 @@ Paletka::Paletka(b2World& World, std::string texture_file, int x, int y,  float 
         _sprite.setOrigin(width/2, height/2);
     }
 
-
-
-
-
-
-
     _bodyDef.position = b2Vec2(x/SCALE, y/SCALE);
     _bodyDef.type = b2_dynamicBody;
 
-
     _body = World.CreateBody(&_bodyDef);
     _body->SetUserData((void *)&_sprite);
-
 
     _shape.SetAsBox((width/2)/SCALE, (height/2)/SCALE);
 
@@ -38,10 +27,7 @@ Paletka::Paletka(b2World& World, std::string texture_file, int x, int y,  float 
     _body->SetFixedRotation(false);
 
     //_body->set
-
-
-
- //   std::cerr << "kontruktor paddle\n";
+    //std::cerr << "kontruktor paddle\n";
 
 
 }

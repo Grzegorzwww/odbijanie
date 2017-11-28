@@ -31,7 +31,8 @@ SOURCES += main.cpp \
     player.cpp \
     ground.cpp \
     paletka.cpp \
-    menu.cpp
+    menu.cpp \
+    colisioncollector.cpp
 
 HEADERS += \
     defines.h \
@@ -40,5 +41,6 @@ HEADERS += \
     player.h \
     ground.h \
     paletka.h \
-    menu.h
+    menu.h \
+    colisioncollector.h
 

@@ -13,6 +13,13 @@ class Ground
       void setPosition(int x, int y);
       virtual ~Ground();
 
+
+      void startContact();
+      void endContact();
+
+
+         sf::Sprite getSprite() {return _sprite;}
+
     protected:
 
 

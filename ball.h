@@ -6,39 +6,43 @@
 
 
 
+
 class Ball
 {
-    public:
-        Ball(b2World& World, std::string texture_file, int x, int y);
-        virtual ~Ball();
+public:
+    Ball(b2World& World, std::string texture_file, int x, int y);
+    virtual ~Ball();
 
-        void setPosition(int x, int y);
-        sf::Texture getTexture();
-        void setDefPosiotion(int x, int y);
+    void setPosition(int x, int y);
+    sf::Texture getTexture();
+    void setDefPosiotion(int x, int y);
 
-    protected:
+    void startContact();
+    void endContact();
 
-    private:
-        Ball();
-
-
-
-        sf::Texture ball_tex;
-        sf::Sprite BallSprite;
-
-         b2BodyDef BodyDef;
-         b2PolygonShape Shape;
+    sf::Sprite getSprite() {return BallSprite;}
 
 
-          b2CircleShape shape;
+protected:
+
+private:
+    Ball();
+    bool m_contacting;
 
 
-         b2FixtureDef FixtureDef;
-         b2Body* Body;
 
-        //b2World *temp_world;
+    sf::Texture ball_tex;
+    sf::Sprite BallSprite;
 
-        float height, wight;
+    b2BodyDef BodyDef;
+    b2PolygonShape Shape;
+    b2CircleShape shape;
+    b2FixtureDef FixtureDef;
+    b2Body* Body;
+
+    //b2World *temp_world;
+
+    float height, wight;
 
 
 };

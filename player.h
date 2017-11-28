@@ -29,11 +29,12 @@ class Player
         void switchPaddleState(bool state);
 
 
-
+        sf::Sprite getSprite() {return _sprite;}
+         sf::Sprite getPaddleSprite() {return padle->getSprite();}
 
 
         void getWindowSize(int w, int h);
-        sf::Sprite getSprite();
+
 
 
     protected:
