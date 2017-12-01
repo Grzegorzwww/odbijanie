@@ -16,35 +16,40 @@ Menu::Menu(float width, float height) {
     show_hide_flag = false;
     show_result_menu_flag = false;
 
-    menu[0].setFont(font);
-    menu[0].setColor(sf::Color::Green);
-    menu[0].setString("New Game");
-    menu[0].setPosition(sf::Vector2f(width /3 , height / (MAX_NUMBER_ITEMS+ 1) * 1));
+    menu[NEW_GAME].setFont(font);
+    menu[NEW_GAME].setColor(sf::Color::Green);
+    menu[NEW_GAME].setString("New Game");
+    menu[NEW_GAME].setPosition(sf::Vector2f(width /3 , height / (MAX_NUMBER_ITEMS+ 1) * 1));
 
-    menu[1].setFont(font);
-    menu[1].setColor(sf::Color::Green);
-    menu[1].setString("Continue");
-    menu[1].setPosition(sf::Vector2f(width /3 , height / (MAX_NUMBER_ITEMS+ 1) * 2));
+    menu[CONTINUE].setFont(font);
+    menu[CONTINUE].setColor(sf::Color::Green);
+    menu[CONTINUE].setString("Continue");
+    menu[CONTINUE].setPosition(sf::Vector2f(width /3 , height / (MAX_NUMBER_ITEMS+ 1) * 2));
 
-    menu[2].setFont(font);
-    menu[2].setColor(sf::Color::Green);
-    menu[2].setString("Exit");
-    menu[2].setPosition(sf::Vector2f(width /3 , height / (MAX_NUMBER_ITEMS+ 1) * 3));
+    menu[RESULT_MENU].setFont(font);
+    menu[RESULT_MENU].setColor(sf::Color::Green);
+    menu[RESULT_MENU].setString("WYNIKI");
+    menu[RESULT_MENU].setPosition(sf::Vector2f(width /3 , height / (MAX_NUMBER_ITEMS+ 1) * 3));
 
-    menu[3].setFont(font);
-    menu[3].setColor(sf::Color::Green);
-    menu[3].setString(" - ");
-    menu[3].setPosition(sf::Vector2f(width /3 , height / 3 ));
+    menu[ EXIT].setFont(font);
+    menu[ EXIT].setColor(sf::Color::Green);
+    menu[ EXIT].setString("Exit");
+    menu[ EXIT].setPosition(sf::Vector2f(width /3 , height / (MAX_NUMBER_ITEMS+ 1) * 4));
 
+    menu[RESULT_TEXT].setFont(font);
+    menu[RESULT_TEXT].setColor(sf::Color::Green);
+    menu[RESULT_TEXT].setString(" - ");
+    menu[RESULT_TEXT].setPosition(sf::Vector2f(width /3 , height / 3 ));
 
-    menu[4].setFont(font);
-    menu[4].setColor(sf::Color::Green);
-    menu[4].setString(" - ");
-    menu[4].setPosition(sf::Vector2f(width - 40 , 20));
-    menu[5].setFont(font);
-    menu[5].setColor(sf::Color::Green);
-    menu[5].setString(" - ");
-    menu[5].setPosition(sf::Vector2f( 20, 20));
+    menu[SCORE_TEXT_PL1].setFont(font);
+    menu[SCORE_TEXT_PL1].setColor(sf::Color::Green);
+    menu[SCORE_TEXT_PL1].setString(" - ");
+    menu[SCORE_TEXT_PL1].setPosition(sf::Vector2f(width - 40 , 20));
+
+    menu[SCORE_TEXT_PL2].setFont(font);
+    menu[SCORE_TEXT_PL2].setColor(sf::Color::Green);
+    menu[SCORE_TEXT_PL2].setString(" - ");
+    menu[SCORE_TEXT_PL2].setPosition(sf::Vector2f( 20, 20));
 
 
 
@@ -61,20 +66,20 @@ void Menu::draw(sf::RenderWindow &window) {
     }
     if(show_result_menu_flag == true && show_hide_flag != true){
         //std::cout <<" wyswietlam wyniki: \n";
-        window.draw(menu[3]);
-        window.draw(menu[4]);
-        window.draw(menu[5]);
+        window.draw(menu[RESULT_TEXT]);
+        window.draw(menu[SCORE_TEXT_PL1]);
+        window.draw(menu[SCORE_TEXT_PL2]);
     }
 
 }
 void  Menu::setResulMenu(std::string str, int num1, int num2) {
-    menu[3].setString(str+"\n Nacisnij 'n'"  );
+    menu[RESULT_TEXT].setString(str+"\n Nacisnij 'n'"  );
     ostringstream ss_num1;
     ss_num1 << num1;
-    menu[4].setString(ss_num1.str());
+    menu[SCORE_TEXT_PL1].setString(ss_num1.str());
     ostringstream ss_num2;
     ss_num2 << num2;
-    menu[5].setString(ss_num2.str());
+    menu[SCORE_TEXT_PL2].setString(ss_num2.str());
 }
 
 

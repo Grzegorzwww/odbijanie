@@ -7,8 +7,19 @@
 
 #include "SFML/Graphics.hpp"
 
-static const int MAX_NUMBER_ITEMS = 3;
-static const int MAX_NUMBER_ALL_ITEMS = 6;
+static const int MAX_NUMBER_ITEMS = 4;
+static const int MAX_NUMBER_ALL_ITEMS = 7;
+
+
+static const int NEW_GAME =0;
+static const int CONTINUE = 1;
+static const int RESULT_MENU = 2;
+static const int EXIT = 3;
+static const int RESULT_TEXT = 4;
+
+static const int SCORE_TEXT_PL1 = 5;
+static const int SCORE_TEXT_PL2 = 6;
+
 
 
 class Menu

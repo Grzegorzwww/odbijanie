@@ -9,12 +9,11 @@ Game::Game() : window(sf::VideoMode(800, 600), "SFML window")
     window.setFramerateLimit(60);
     ball = nullptr;
     fail_detcted = false;
-
     prev_ball_altitude  = 0;
 
 
+
      std::srand( time( NULL ) );
-    // int background_num =
      std::ostringstream ss;
      ss<< (std::rand() % 4);
 
@@ -30,18 +29,15 @@ Game::Game() : window(sf::VideoMode(800, 600), "SFML window")
     _gravity = b2Vec2(0.0f, 25.0f);
     World = new b2World(_gravity);
     pilki_counter = 0;
-    //spites_count = 0;
 
     menu = new Menu(window.getSize().x,window.getSize().y);
 
 
-
     if (!back_ground_tex.loadFromFile("background_"+ss.str()+".jpg")) {
-
+        std::cerr <<"Can't load background Image\n";
     }
     _backGroundSprite.setTexture(back_ground_tex);
     _backGroundSprite.setPosition(0, 0);
-
 
     ground = new Ground(*World, "ground.jpg", 400, 600, 800.0f,  10.0f);
 
@@ -50,7 +46,6 @@ Game::Game() : window(sf::VideoMode(800, 600), "SFML window")
 
     player_one = new Player(*World, "player.png", 400, 200, PLAYER_WIDTH, PLAYER_HEIGHT, PAL_LEFT_HENDED);
     player_two = new Player(*World, "player.png", 200, 200, PLAYER_WIDTH, PLAYER_HEIGHT, PAL_RIGHT_HENDED);
-
 
 }
 
@@ -124,7 +119,6 @@ void Game::processEvents() {
             case sf::Keyboard::Space :
                 if(ball == nullptr){
                     ball = new Ball(*World, "ball_small.png", 400 , 200);
-                    //World->SetContactListener(&myContactListenerInstance);
                     resumeGame();
                 }
                 else {
@@ -148,15 +142,21 @@ void Game::processEvents() {
                 if(menu->getMenuState()){
 
                     switch(menu->GetPresesedItem()) {
-                    case 0: //new game
+                    case NEW_GAME: //new game
                         newGame();
                         menu->hideMenu();
                         menu->hideResult();
                         break;
-                    case 1: //new game
+                    case CONTINUE:
                         menu->hideMenu();
+                        menu->hideResult();
                         break;
-                    case 2: //new game
+                    case RESULT_MENU:
+                         menu->showResult();
+                         menu->hideMenu();
+                        //TODO: //result here
+                        break;
+                    case EXIT:
                         window.close();
                         break;
 
@@ -191,22 +191,13 @@ void Game::update() {
 void Game::render()
 {
     window.clear();
-
-
-
     window.draw(_backGroundSprite);
-    for (std::vector<sf::Sprite >::iterator it = sprites_buffor.begin(); it != sprites_buffor.end(); ++it){
-        window.draw(*it);
-    }
-
+    for(const auto &it : sprites_buffor)
+         window.draw(it);
     menu->draw(window);
     sprites_buffor.clear();
-
-    spites_count = 0;
     window.display();
 }
-
-
 
 
 
@@ -218,12 +209,8 @@ void Game::create_ground(b2World& World, float X, float Y, float heigh, float wi
 
     b2BodyDef bd;
     bd.position = b2Vec2(X/SCALE, Y/SCALE);
-
     b2Body* ground = World.CreateBody(&bd);
-
     b2PolygonShape shape;
-
-    //shape.SetAsEdge(b2Vec2(-40.0f, 0.0f), b2Vec2(40.0f, 0.0f));
     shape.SetAsBox((heigh/2)/SCALE, (width/2)/SCALE); // Creates a box shape. Divide your desired width and height by 2.
     b2FixtureDef FixtureDef;
 
@@ -247,9 +234,6 @@ void Game::create_ball(b2World& World, int MouseX, int MouseY)
     b2FixtureDef FixtureDef;
     FixtureDef.density = 1.0f;
     FixtureDef.restitution = 0.0f;
-
-    //FixtureDef= 1.0f;
-    //FixtureDef.friction = 1.0f;
     FixtureDef.shape = &Shape;
 
     Body->CreateFixture(&FixtureDef);
@@ -270,7 +254,6 @@ void Game::CreateGround(b2World& World, float X, float Y)
     b2FixtureDef FixtureDef;
     FixtureDef.density = 1.0f;
 
-    //FixtureDef.density = 1.0f;  // Sets the density of the body
     FixtureDef.shape = &Shape; // Sets the shape
     Body->CreateFixture(&FixtureDef); // Apply the fixture definition
 
@@ -326,54 +309,50 @@ void Game::collisionDetection(){
     }
 
     if(ball != nullptr){
-        if(player_one->getSprite().getGlobalBounds().intersects(ball->getSprite().getGlobalBounds())){
+        if(player_one->getSprite().getGlobalBounds().intersects(ball->getSprite().getGlobalBounds()) && !fail_detcted){
                game_sate = WAIT_TO_FAIL_PLAYER_2;
         }
-        if(player_one->getPaddleSprite().getGlobalBounds().intersects(ball->getSprite().getGlobalBounds())){
+        if(player_one->getPaddleSprite().getGlobalBounds().intersects(ball->getSprite().getGlobalBounds()) && !fail_detcted){
                game_sate = WAIT_TO_FAIL_PLAYER_2;
         }
-        if(player_two->getSprite().getGlobalBounds().intersects(ball->getSprite().getGlobalBounds())){
+        if(player_two->getSprite().getGlobalBounds().intersects(ball->getSprite().getGlobalBounds()) && !fail_detcted){
                game_sate = WAIT_TO_FAIL_PLAYER_1;
         }
-        if(player_two->getPaddleSprite().getGlobalBounds().intersects(ball->getSprite().getGlobalBounds())){
+        if(player_two->getPaddleSprite().getGlobalBounds().intersects(ball->getSprite().getGlobalBounds()) && !fail_detcted){
                game_sate = WAIT_TO_FAIL_PLAYER_1;
         }
     }
 }
 
 void Game::constrolLogic(){
-    std::cout << "constrolLogic\n";
     switch(game_sate){
     case WAIT_TO_FAIL_PLAYER_1:
         menu->hideResult();
         std::cout << "WAIT_TO_FAIL_PLAYER_1\n";
-        //
         break;
     case WAIT_TO_FAIL_PLAYER_2:
         menu->hideResult();
         std::cout << "WAIT_TO_FAIL_PLAYER_2\n";
-        //
         break;
     case FAIL_DETECTED_PLAYER_1:
         player_1_counter++;
         game_sate = MENU_DISPLAYED_PLAYER_1;
+        fail_detcted = true;
         std::cout << " FAIL_DETECTED_PLAYER_1\n";
-
         break;
     case FAIL_DETECTED_PLAYER_2:
-           player_2_counter++;
+        player_2_counter++;
         game_sate = MENU_DISPLAYED_PLAYER_2;
+        fail_detcted = true;
         std::cout << " FAIL_DETECTED_PLAYER_2\n";
         break;
 
     case   MENU_DISPLAYED_PLAYER_1:
-
         menu->setResulMenu("Wygrał gracz 1", player_1_counter, player_2_counter);
         menu->showResult();
         std::cout << " MENU_DISPLAYED_PLAYER_1\n";
         break;
     case   MENU_DISPLAYED_PLAYER_2:
-
         menu->setResulMenu("Wygrał gracz 2", player_1_counter, player_2_counter);
         menu->showResult();
         std::cout << " MENU_DISPLAYED_PLAYER_2\n";
@@ -398,12 +377,12 @@ void Game::resumeGame(){
         else{
             ball->setDefPosiotion(650,100);
         }
-
-
         player_one->setPosition(650, 550);
         player_one->makeJump();
         player_two->setPosition(150, 550);
         player_two->makeJump();
+
+        fail_detcted = false;
 
     }
 
@@ -411,7 +390,6 @@ void Game::resumeGame(){
 }
 
 void Game::newGame(){
-
     resumeGame();
 
 }
